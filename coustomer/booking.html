@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Book service — LocalLink</title>
+<link rel="stylesheet" href="/css/style.css" />
+<script>(function(){var t=localStorage.getItem("locallink-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t);})();</script>
+<style>
+  .icon-btn { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .icon-btn svg { width: 20px; height: 20px; stroke: var(--text); }
+  main { max-width: 480px; margin: 0 auto; padding: 18px 20px 110px; }
+  @media (min-width: 768px) { main { max-width: 720px; } }
+  .worker-summary { display: flex; align-items: center; gap: 12px; padding: 14px; margin-bottom: 22px; }
+  .ws-avatar { width: 48px; height: 48px; border-radius: 14px; background: var(--surface-2); flex-shrink: 0; }
+  .ws-name { font-size: 14.5px; font-weight: 700; }
+  .ws-meta { font-size: 12px; color: var(--text-muted); }
+  .field-label { font-size: 13px; font-weight: 600; margin-bottom: 10px; display: block; }
+  .date-scroll { display: flex; gap: 10px; overflow-x: auto; margin-bottom: 22px; scrollbar-width: none; }
+  .date-scroll::-webkit-scrollbar { display: none; }
+  .date-chip {
+    flex-shrink: 0; width: 58px; padding: 10px 0; border-radius: 14px; text-align: center;
+    background: var(--surface-2); border: 1px solid transparent;
+  }
+  .date-chip .d-name { font-size: 11px; color: var(--text-muted); }
+  .date-chip .d-num { font-size: 16px; font-weight: 700; margin-top: 3px; }
+  .date-chip.active { background: var(--brand-500); }
+  .date-chip.active .d-name, .date-chip.active .d-num { color: #fff; }
+  .time-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 22px; }
+  .time-slot { padding: 12px 0; text-align: center; border-radius: 12px; font-size: 13px; font-weight: 600; background: var(--surface-2); }
+  .time-slot.active { background: var(--brand-500); color: #fff; }
+  .addr-card { display: flex; align-items: flex-start; gap: 12px; padding: 16px; margin-bottom: 12px; }
+  .addr-card svg { width: 20px; height: 20px; stroke: var(--brand-500); flex-shrink: 0; margin-top: 2px; }
+  .addr-label { font-size: 13.5px; font-weight: 700; }
+  .addr-text { font-size: 12.5px; color: var(--text-muted); margin-top: 3px; }
+  .addr-card.active { border: 1.5px solid var(--brand-500); }
+  textarea.notes {
+    width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--card);
+    padding: 14px; font-size: 13.5px; color: var(--text); resize: none; font-family: inherit;
+  }
+  .price-summary { padding: 16px; margin-top: 22px; }
+  .price-row { display: flex; justify-content: space-between; font-size: 13.5px; margin-bottom: 8px; color: var(--text-muted); }
+  .price-row.total { font-weight: 700; color: var(--text); font-size: 15px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .sticky-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+    padding: 14px 20px calc(14px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+<header class="navbar glass">
+  <a class="icon-btn glass" href="javascript:history.back()">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+  </a>
+  <span class="logo" style="font-size:15px;">Confirm booking</span>
+  <span style="width:40px;"></span>
+</header>
+
+<main>
+  <div class="worker-summary card">
+    <div class="ws-avatar"></div>
+    <div>
+      <div class="ws-name">Ramesh Kumar</div>
+      <div class="ws-meta">Electrician · ⭐ 4.8 · ₹149 visiting fee</div>
+    </div>
+  </div>
+
+  <label class="field-label">Select date</label>
+  <div class="date-scroll" id="dateScroll">
+    <div class="date-chip active"><div class="d-name">Today</div><div class="d-num">13</div></div>
+    <div class="date-chip"><div class="d-name">Tue</div><div class="d-num">14</div></div>
+    <div class="date-chip"><div class="d-name">Wed</div><div class="d-num">15</div></div>
+    <div class="date-chip"><div class="d-name">Thu</div><div class="d-num">16</div></div>
+    <div class="date-chip"><div class="d-name">Fri</div><div class="d-num">17</div></div>
+    <div class="date-chip"><div class="d-name">Sat</div><div class="d-num">18</div></div>
+  </div>
+
+  <label class="field-label">Select time</label>
+  <div class="time-grid" id="timeGrid">
+    <div class="time-slot">9:00 AM</div>
+    <div class="time-slot active">11:00 AM</div>
+    <div class="time-slot">1:00 PM</div>
+    <div class="time-slot">3:00 PM</div>
+    <div class="time-slot">5:00 PM</div>
+    <div class="time-slot">7:00 PM</div>
+  </div>
+
+  <label class="field-label">Service address</label>
+  <div class="addr-card card active">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+    <div>
+      <div class="addr-label">Home</div>
+      <div class="addr-text">Ward No. 4, Near Bus Stand, Maharajganj, UP – 273303</div>
+    </div>
+  </div>
+  <a class="card" href="/customer/addresses.html" style="display:flex; align-items:center; gap:10px; padding:14px; margin-bottom:22px; text-decoration:none; color:var(--brand-500); font-size:13.5px; font-weight:600;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+    Add new address
+  </a>
+
+  <label class="field-label">Notes for the professional (optional)</label>
+  <textarea class="notes" rows="3" placeholder="E.g. Fan not spinning, switch board sparking..."></textarea>
+
+  <div class="price-summary card">
+    <div class="price-row"><span>Visiting charge</span><span>₹149</span></div>
+    <div class="price-row"><span>Platform fee</span><span>₹10</span></div>
+    <div class="price-row total"><span>Total (pay after service)</span><span>₹159</span></div>
+  </div>
+</main>
+
+<div class="sticky-bar glass">
+  <a class="btn btn-primary btn-block" href="/customer/checkout.html?worker=ramesh-kumar">Continue to payment</a>
+</div>
+
+<script src="/js/theme.js"></script>
+<script>
+  document.getElementById("dateScroll").addEventListener("click", (e) => {
+    const chip = e.target.closest(".date-chip");
+    if (!chip) return;
+    document.querySelectorAll(".date-chip").forEach((c) => c.classList.remove("active"));
+    chip.classList.add("active");
+  });
+  document.getElementById("timeGrid").addEventListener("click", (e) => {
+    const slot = e.target.closest(".time-slot");
+    if (!slot) return;
+    document.querySelectorAll(".time-slot").forEach((c) => c.classList.remove("active"));
+    slot.classList.add("active");
+  });
+</script>
+</body>
+</html>

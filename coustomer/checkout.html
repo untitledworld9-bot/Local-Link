@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Payment — LocalLink</title>
+<link rel="stylesheet" href="/css/style.css" />
+<script>(function(){var t=localStorage.getItem("locallink-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t);})();</script>
+<style>
+  .icon-btn { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .icon-btn svg { width: 20px; height: 20px; stroke: var(--text); }
+  main { max-width: 480px; margin: 0 auto; padding: 18px 20px 110px; }
+  @media (min-width: 768px) { main { max-width: 720px; } }
+  .field-label { font-size: 13px; font-weight: 600; margin-bottom: 10px; display: block; }
+  .pay-option {
+    display: flex; align-items: center; gap: 14px; padding: 16px; margin-bottom: 12px;
+    border: 1.5px solid transparent;
+  }
+  .pay-option.active { border-color: var(--brand-500); }
+  .pay-icon { width: 40px; height: 40px; border-radius: 12px; background: var(--surface-2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .pay-icon svg { width: 19px; height: 19px; stroke: var(--brand-500); }
+  .pay-name { font-size: 14px; font-weight: 700; }
+  .pay-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .radio-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); margin-left: auto; flex-shrink: 0; position: relative; }
+  .pay-option.active .radio-dot { border-color: var(--brand-500); }
+  .pay-option.active .radio-dot::after { content: ""; position: absolute; inset: 3px; background: var(--brand-500); border-radius: 50%; }
+  .coupon-row { display: flex; gap: 10px; margin: 20px 0; }
+  .coupon-row input {
+    flex: 1; height: 48px; border-radius: var(--radius-lg); border: 1px solid var(--border);
+    background: var(--card); padding: 0 14px; font-size: 13.5px; color: var(--text); outline: none;
+  }
+  .coupon-row .btn { height: 48px; padding: 0 18px; font-size: 13px; }
+  .price-summary { padding: 16px; }
+  .price-row { display: flex; justify-content: space-between; font-size: 13.5px; margin-bottom: 8px; color: var(--text-muted); }
+  .price-row.total { font-weight: 700; color: var(--text); font-size: 15px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .sticky-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+    padding: 14px 20px calc(14px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+<header class="navbar glass">
+  <a class="icon-btn glass" href="javascript:history.back()">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+  </a>
+  <span class="logo" style="font-size:15px;">Payment</span>
+  <span style="width:40px;"></span>
+</header>
+
+<main>
+  <label class="field-label">Choose payment method</label>
+  <div id="payOptions">
+    <div class="pay-option card active" data-method="upi">
+      <div class="pay-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+      <div><div class="pay-name">UPI</div><div class="pay-sub">Google Pay, PhonePe, Paytm</div></div>
+      <div class="radio-dot"></div>
+    </div>
+    <div class="pay-option card" data-method="razorpay">
+      <div class="pay-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg></div>
+      <div><div class="pay-name">Card / Netbanking</div><div class="pay-sub">via Razorpay, secure</div></div>
+      <div class="radio-dot"></div>
+    </div>
+    <div class="pay-option card" data-method="wallet">
+      <div class="pay-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a2 2 0 000 4h4v-4z"/></svg></div>
+      <div><div class="pay-name">LocalLink Wallet</div><div class="pay-sub">Balance: ₹0</div></div>
+      <div class="radio-dot"></div>
+    </div>
+    <div class="pay-option card" data-method="cash">
+      <div class="pay-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12h6M12 9v6"/></svg></div>
+      <div><div class="pay-name">Cash on completion</div><div class="pay-sub">Pay after work is done</div></div>
+      <div class="radio-dot"></div>
+    </div>
+  </div>
+
+  <div class="coupon-row">
+    <input type="text" placeholder="Have a coupon code?" />
+    <button class="btn btn-secondary">Apply</button>
+  </div>
+
+  <div class="price-summary card">
+    <div class="price-row"><span>Visiting charge</span><span>₹149</span></div>
+    <div class="price-row"><span>Platform fee</span><span>₹10</span></div>
+    <div class="price-row"><span>Discount</span><span>−₹0</span></div>
+    <div class="price-row total"><span>Total payable</span><span>₹159</span></div>
+  </div>
+</main>
+
+<div class="sticky-bar glass">
+  <a class="btn btn-primary btn-block" href="/customer/payment-success.html">Confirm booking · ₹159</a>
+</div>
+
+<script src="/js/theme.js"></script>
+<script>
+  document.getElementById("payOptions").addEventListener("click", (e) => {
+    const opt = e.target.closest(".pay-option");
+    if (!opt) return;
+    document.querySelectorAll(".pay-option").forEach((o) => o.classList.remove("active"));
+    opt.classList.add("active");
+  });
+</script>
+</body>
+</html>
