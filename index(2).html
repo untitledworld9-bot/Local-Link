@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Sign in — LocalLink</title>
+<link rel="stylesheet" href="/css/style.css" />
+<script>(function(){var t=localStorage.getItem("locallink-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t);})();</script>
+<style>
+  body { display: flex; align-items: center; min-height: 100vh; }
+  .wrap { width: 100%; padding: 32px 24px; }
+  .brand-mark {
+    width: 64px; height: 64px; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px; box-shadow: var(--shadow-floating);
+  }
+  .brand-mark svg { width: 30px; height: 30px; stroke: #fff; }
+  .role-card {
+    display: flex; align-items: center; gap: 14px;
+    padding: 18px; margin-bottom: 14px;
+  }
+  .role-icon {
+    width: 48px; height: 48px; border-radius: 14px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--surface-2);
+  }
+  .role-icon svg { width: 22px; height: 22px; stroke: var(--brand-500); }
+  .role-text h3 { font-size: 15px; margin-bottom: 2px; }
+  .role-text p { font-size: 12.5px; color: var(--text-muted); }
+  .role-arrow { margin-left: auto; }
+  .role-arrow svg { width: 18px; height: 18px; stroke: var(--text-muted); }
+</style>
+</head>
+<body class="bg-mesh">
+<div class="wrap">
+  <div class="brand-mark bg-brand-gradient float">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 22s8-7.5 8-13a8 8 0 10-16 0c0 5.5 8 13 8 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+  </div>
+  <h1>Welcome to<br /><span class="text-gradient">LocalLink</span></h1>
+  <p class="text-muted" style="margin-top:8px; margin-bottom:28px; font-size:14.5px;">Choose how you'd like to continue</p>
+
+  <a class="role-card card" href="/auth/login.html?role=customer">
+    <div class="role-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+    <div class="role-text">
+      <h3>I need a service</h3>
+      <p>Book electricians, plumbers &amp; more</p>
+    </div>
+    <div class="role-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
+  </a>
+
+  <a class="role-card card" href="/auth/login.html?role=worker">
+    <div class="role-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14.7 6.3l3 3L7 20H4v-3L14.7 6.3z"/><path d="M13 4l3 3"/></svg></div>
+    <div class="role-text">
+      <h3>I provide a service</h3>
+      <p>Get bookings, grow your income</p>
+    </div>
+    <div class="role-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
+  </a>
+
+  <p class="text-muted" style="text-align:center; margin-top:24px; font-size:12.5px;">
+    By continuing you agree to LocalLink's <a href="/terms.html" style="color:var(--brand-500);">Terms</a> &amp; <a href="/privacy.html" style="color:var(--brand-500);">Privacy Policy</a>
+  </p>
+</div>
+<script src="/js/theme.js"></script>
+</body>
+</html>
