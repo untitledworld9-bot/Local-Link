@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Electrician near you — LocalLink</title>
+<link rel="stylesheet" href="/css/style.css" />
+<script>(function(){var t=localStorage.getItem("locallink-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t);})();</script>
+<style>
+  .cat-header { padding: 16px 20px 0; }
+  .cat-title-row { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+  .icon-btn { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .icon-btn svg { width: 20px; height: 20px; stroke: var(--text); }
+  .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 14px 20px; scrollbar-width: none; }
+  .filter-scroll::-webkit-scrollbar { display: none; }
+  .chip {
+    flex-shrink: 0; padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600;
+    background: var(--surface-2); color: var(--text-muted); border: 1px solid transparent;
+  }
+  .chip.active { background: var(--brand-500); color: #fff; }
+  .worker-list { padding: 4px 20px 100px; display: flex; flex-direction: column; gap: 14px; }
+  .worker-row { display: flex; gap: 14px; padding: 16px; }
+  .w-avatar { width: 64px; height: 64px; border-radius: 18px; background: var(--surface-2); flex-shrink: 0; }
+  .w-info { flex: 1; min-width: 0; }
+  .w-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .w-name { font-size: 15px; font-weight: 700; }
+  .w-price { font-size: 15px; font-weight: 700; color: var(--brand-500); white-space: nowrap; }
+  .w-meta { font-size: 12.5px; color: var(--text-muted); margin-top: 3px; }
+  .w-badges { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .w-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .w-actions .btn { height: 38px; padding: 0 16px; font-size: 13px; flex: 1; }
+</style>
+</head>
+<body>
+
+<header class="navbar glass">
+  <a class="icon-btn glass" href="/index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+  </a>
+  <span class="logo" style="font-size:15px;">Electrician</span>
+  <button class="icon-btn glass" aria-label="Search">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+  </button>
+</header>
+
+<div class="cat-header">
+  <p class="text-muted" style="font-size:13px;">14 verified professionals near Maharajganj</p>
+</div>
+
+<div class="filter-scroll">
+  <button class="chip active">All</button>
+  <button class="chip">⭐ Top rated</button>
+  <button class="chip">📍 Nearest</button>
+  <button class="chip">⚡ Available now</button>
+  <button class="chip">💰 Lowest price</button>
+</div>
+
+<main class="worker-list" id="workerList">
+  <!-- Worker card 1 -->
+  <a class="worker-row card" href="/customer/worker-profile.html?id=ramesh-kumar" style="text-decoration:none;">
+    <div class="w-avatar"></div>
+    <div class="w-info">
+      <div class="w-top">
+        <div>
+          <div class="w-name">Ramesh Kumar</div>
+          <div class="w-meta">4.8 ★ (212 reviews) · 1.2 km away</div>
+        </div>
+        <div class="w-price">₹149</div>
+      </div>
+      <div class="w-badges">
+        <span class="badge badge-verified">✓ Verified</span>
+        <span class="badge badge-rating">⏱ Arrives in 22 min</span>
+      </div>
+    </div>
+  </a>
+
+  <!-- Worker card 2 -->
+  <a class="worker-row card" href="/customer/worker-profile.html?id=anil-mishra" style="text-decoration:none;">
+    <div class="w-avatar"></div>
+    <div class="w-info">
+      <div class="w-top">
+        <div>
+          <div class="w-name">Anil Mishra</div>
+          <div class="w-meta">4.6 ★ (98 reviews) · 2.4 km away</div>
+        </div>
+        <div class="w-price">₹129</div>
+      </div>
+      <div class="w-badges">
+        <span class="badge badge-verified">✓ Verified</span>
+        <span class="badge badge-rating">⏱ Arrives in 35 min</span>
+      </div>
+    </div>
+  </a>
+
+  <!-- Worker card 3 -->
+  <a class="worker-row card" href="/customer/worker-profile.html?id=deepak-singh" style="text-decoration:none;">
+    <div class="w-avatar"></div>
+    <div class="w-info">
+      <div class="w-top">
+        <div>
+          <div class="w-name">Deepak Singh</div>
+          <div class="w-meta">4.9 ★ (340 reviews) · 3.1 km away</div>
+        </div>
+        <div class="w-price">₹179</div>
+      </div>
+      <div class="w-badges">
+        <span class="badge badge-verified">✓ Verified</span>
+        <span class="badge badge-rating">⏱ Arrives in 40 min</span>
+      </div>
+    </div>
+  </a>
+</main>
+
+<script src="/js/theme.js"></script>
+<script>
+  // Chip filter toggle (visual only for now — Firestore query wiring comes with backend pass)
+  document.querySelectorAll(".chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      document.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+      chip.classList.add("active");
+    });
+  });
+</script>
+</body>
+</html>
