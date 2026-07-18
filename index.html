@@ -657,6 +657,11 @@
   document.getElementById("botInput").addEventListener("keydown", (e) => {
     if (e.key === "Enter") sendToBot();
   });
+
+  // Auto-detect location as soon as the page loads — no tap needed.
+  // Browser will show its native permission prompt automatically;
+  // if permission was already granted earlier, this runs silently.
+  detectLocation();
 </script>
 </body>
 </html>
