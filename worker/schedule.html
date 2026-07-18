@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Schedule — LocalLink Worker</title>
+<link rel="stylesheet" href="/css/style.css" />
+<script>(function(){var t=localStorage.getItem("locallink-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t);})();</script>
+<style>
+  main { max-width: 480px; margin: 0 auto; padding-bottom: 110px; }
+  @media (min-width: 768px) { main { max-width: 720px; } }
+  .icon-btn { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .icon-btn svg { width: 20px; height: 20px; stroke: var(--text); }
+
+  .section { padding: 18px 20px 0; }
+  .section h2 { font-size: 15px; margin-bottom: 12px; }
+
+  .vacation-card {
+    display: flex; align-items: center; gap: 14px; padding: 18px; margin-bottom: 22px;
+  }
+  .vacation-icon { width: 44px; height: 44px; border-radius: 14px; background: rgba(245,158,11,0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .vacation-icon svg { width: 20px; height: 20px; stroke: var(--amber); }
+  .vacation-text h3 { font-size: 14px; }
+  .vacation-text p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .toggle { width: 48px; height: 28px; border-radius: 999px; background: var(--surface-2); position: relative; margin-left: auto; flex-shrink: 0; }
+  .toggle .knob { width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: var(--shadow-soft); position: absolute; top: 3px; left: 3px; transition: transform 0.2s ease; }
+  .toggle.on { background: var(--brand-500); }
+  .toggle.on .knob { transform: translateX(20px); }
+
+  .day-row { display: flex; align-items: center; gap: 14px; padding: 14px; margin-bottom: 10px; }
+  .day-name { font-size: 14px; font-weight: 700; width: 44px; flex-shrink: 0; }
+  .day-hours { font-size: 13px; color: var(--text-muted); flex: 1; }
+  .day-row.off .day-hours { opacity: 0.5; }
+  .day-toggle { width: 42px; height: 24px; border-radius: 999px; background: var(--surface-2); position: relative; flex-shrink: 0; }
+  .day-toggle .knob { width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: var(--shadow-soft); position: absolute; top: 3px; left: 3px; transition: transform 0.2s ease; }
+  .day-toggle.on { background: var(--brand-500); }
+  .day-toggle.on .knob { transform: translateX(18px); }
+
+  .sticky-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+    padding: 14px 20px calc(14px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+<main>
+  <header class="navbar glass">
+    <a class="icon-btn glass" href="/worker/dashboard.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </a>
+    <span class="logo" style="font-size:15px;">Schedule</span>
+    <span style="width:40px;"></span>
+  </header>
+
+  <section class="section">
+    <div class="vacation-card card">
+      <div class="vacation-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M17.8 19.8a7.5 7.5 0 01-10.6 0M2 12h2M20 12h2M12 2v2M12 20v2"/><circle cx="12" cy="12" r="4"/></svg></div>
+      <div class="vacation-text">
+        <h3>Vacation mode</h3>
+        <p>Pause all new bookings temporarily</p>
+      </div>
+      <div class="toggle" id="vacationToggle" onclick="this.classList.toggle('on')"><div class="knob"></div></div>
+    </div>
+
+    <h2>Weekly working hours</h2>
+    <div id="weekList">
+      <div class="day-row card">
+        <span class="day-name">Mon</span>
+        <span class="day-hours">9:00 AM – 8:00 PM</span>
+        <div class="day-toggle on"><div class="knob"></div></div>
+      </div>
+      <div class="day-row card">
+        <span class="day-name">Tue</span>
+        <span class="day-hours">9:00 AM – 8:00 PM</span>
+        <div class="day-toggle on"><div class="knob"></div></div>
+      </div>
+      <div class="day-row card">
+        <span class="day-name">Wed</span>
+        <span class="day-hours">9:00 AM – 8:00 PM</span>
+        <div class="day-toggle on"><div class="knob"></div></div>
+      </div>
+      <div class="day-row card">
+        <span class="day-name">Thu</span>
+        <span class="day-hours">9:00 AM – 8:00 PM</span>
+        <div class="day-toggle on"><div class="knob"></div></div>
+      </div>
+      <div class="day-row card">
+        <span class="day-name">Fri</span>
+        <span class="day-hours">9:00 AM – 8:00 PM</span>
+        <div class="day-toggle on"><div class="knob"></div></div>
+      </div>
+      <div class="day-row card">
+        <span class="day-name">Sat</span>
+        <span class="day-hours">9:00 AM – 8:00 PM</span>
+        <div class="day-toggle on"><div class="knob"></div></div>
+      </div>
+      <div class="day-row card off">
+        <span class="day-name">Sun</span>
+        <span class="day-hours">Day off</span>
+        <div class="day-toggle"><div class="knob"></div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="sticky-bar glass">
+  <button class="btn btn-primary btn-block">Save changes</button>
+</div>
+
+<script src="/js/theme.js"></script>
+<script>
+  document.getElementById("weekList").addEventListener("click", (e) => {
+    const toggle = e.target.closest(".day-toggle");
+    if (!toggle) return;
+    toggle.classList.toggle("on");
+    const row = toggle.closest(".day-row");
+    row.classList.toggle("off", !toggle.classList.contains("on"));
+    row.querySelector(".day-hours").textContent = toggle.classList.contains("on")
+      ? "9:00 AM – 8:00 PM"
+      : "Day off";
+  });
+</script>
+</body>
+</html>
