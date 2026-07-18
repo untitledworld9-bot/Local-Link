@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Chats — LocalLink</title>
+<link rel="stylesheet" href="../css/style.css" />
+<script>(function(){var t=localStorage.getItem("locallink-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t);})();</script>
+<style>
+  main { max-width: 480px; margin: 0 auto; padding-bottom: 100px; }
+  @media (min-width: 768px) { main { max-width: 720px; } }
+  .icon-btn { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .icon-btn svg { width: 20px; height: 20px; stroke: var(--text); }
+  .chat-list { padding: 10px 20px; display: flex; flex-direction: column; gap: 8px; }
+  .chat-row { display: flex; align-items: center; gap: 12px; padding: 14px; text-decoration: none; color: inherit; }
+  .chat-avatar { width: 50px; height: 50px; border-radius: 15px; background: var(--surface-2); flex-shrink: 0; position: relative; }
+  .online-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--emerald); border: 2px solid var(--card); position: absolute; bottom: -1px; right: -1px; }
+  .chat-name { font-size: 14.5px; font-weight: 700; }
+  .chat-preview { font-size: 12.5px; color: var(--text-muted); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+  .chat-right { margin-left: auto; text-align: right; flex-shrink: 0; }
+  .chat-time { font-size: 11px; color: var(--text-muted); }
+  .unread-dot { width: 20px; height: 20px; border-radius: 50%; background: var(--brand-500); color: #fff; font-size: 10.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 6px; margin-left: auto; }
+</style>
+</head>
+<body>
+<main>
+  <header class="navbar glass">
+    <a class="icon-btn glass" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </a>
+    <span class="logo" style="font-size:15px;">Chats</span>
+    <span style="width:40px;"></span>
+  </header>
+
+  <div class="chat-list">
+    <a class="chat-row card" href="chat-thread.html?worker=ramesh-kumar">
+      <div class="chat-avatar"><span class="online-dot"></span></div>
+      <div>
+        <div class="chat-name">Ramesh Kumar</div>
+        <div class="chat-preview">On my way, will reach in 10 mins</div>
+      </div>
+      <div class="chat-right">
+        <div class="chat-time">2m ago</div>
+        <div class="unread-dot">2</div>
+      </div>
+    </a>
+
+    <a class="chat-row card" href="chat-thread.html?worker=suresh-yadav">
+      <div class="chat-avatar"></div>
+      <div>
+        <div class="chat-name">Suresh Yadav</div>
+        <div class="chat-preview">Thank you! ⭐️⭐️⭐️⭐️⭐️</div>
+      </div>
+      <div class="chat-right">
+        <div class="chat-time">2d ago</div>
+      </div>
+    </a>
+
+    <a class="chat-row card" href="chat-thread.html?worker=vikas-singh">
+      <div class="chat-avatar"></div>
+      <div>
+        <div class="chat-name">Vikas Singh</div>
+        <div class="chat-preview">Sure, ₹349 including gas top-up</div>
+      </div>
+      <div class="chat-right">
+        <div class="chat-time">6d ago</div>
+      </div>
+    </a>
+  </div>
+</main>
+
+<nav class="tabbar glass">
+  <a class="tab" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+    Home
+  </a>
+  <a class="tab" href="search.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+    Search
+  </a>
+  <a class="tab" href="bookings.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    Bookings
+  </a>
+  <a class="tab active" href="chat.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    Chat
+  </a>
+  <a class="tab" href="profile.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+    Profile
+  </a>
+</nav>
+<script src="../js/theme.js"></script>
+</body>
+</html>

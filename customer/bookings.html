@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>My Bookings — LocalLink</title>
+<link rel="stylesheet" href="../css/style.css" />
+<script>(function(){var t=localStorage.getItem("locallink-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t);})();</script>
+<style>
+  main { max-width: 480px; margin: 0 auto; padding-bottom: 100px; }
+  @media (min-width: 768px) { main { max-width: 720px; } }
+  .icon-btn { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .icon-btn svg { width: 20px; height: 20px; stroke: var(--text); }
+  .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 14px 20px; scrollbar-width: none; }
+  .filter-scroll::-webkit-scrollbar { display: none; }
+  .chip { flex-shrink: 0; padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; background: var(--surface-2); color: var(--text-muted); }
+  .chip.active { background: var(--brand-500); color: #fff; }
+  .booking-list { padding: 4px 20px; display: flex; flex-direction: column; gap: 12px; }
+  .booking-card { padding: 16px; }
+  .bk-top { display: flex; align-items: center; gap: 12px; }
+  .bk-avatar { width: 44px; height: 44px; border-radius: 13px; background: var(--surface-2); flex-shrink: 0; }
+  .bk-name { font-size: 14px; font-weight: 700; }
+  .bk-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .status-tag { margin-left: auto; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+  .status-tag.on-way { background: rgba(56,189,248,0.12); color: var(--sky); }
+  .status-tag.completed { background: rgba(34,197,94,0.12); color: var(--emerald); }
+  .status-tag.pending { background: rgba(245,158,11,0.12); color: var(--amber); }
+  .status-tag.cancelled { background: rgba(244,63,94,0.12); color: var(--rose); }
+  .bk-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .bk-price { font-size: 14px; font-weight: 700; }
+  .bk-actions { display: flex; gap: 8px; }
+  .bk-actions .btn { height: 34px; padding: 0 14px; font-size: 12px; }
+</style>
+</head>
+<body>
+<main>
+  <header class="navbar glass">
+    <a class="icon-btn glass" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </a>
+    <span class="logo" style="font-size:15px;">My Bookings</span>
+    <span style="width:40px;"></span>
+  </header>
+
+  <div class="filter-scroll">
+    <button class="chip active">Ongoing (1)</button>
+    <button class="chip">Upcoming</button>
+    <button class="chip">Completed</button>
+    <button class="chip">Cancelled</button>
+  </div>
+
+  <div class="booking-list">
+    <div class="booking-card card fade-up">
+      <div class="bk-top">
+        <div class="bk-avatar"></div>
+        <div>
+          <div class="bk-name">Ramesh Kumar</div>
+          <div class="bk-meta">Electrician · Today, 11:00 AM</div>
+        </div>
+        <span class="status-tag on-way">On the way</span>
+      </div>
+      <div class="bk-footer">
+        <span class="bk-price">₹159</span>
+        <div class="bk-actions">
+          <a class="btn btn-secondary" href="chat-thread.html?worker=ramesh-kumar">Chat</a>
+          <a class="btn btn-primary" href="tracking.html?booking=LL2607130042">Track</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="booking-card card">
+      <div class="bk-top">
+        <div class="bk-avatar"></div>
+        <div>
+          <div class="bk-name">Suresh Yadav</div>
+          <div class="bk-meta">Plumber · 12 Jul, 4:00 PM</div>
+        </div>
+        <span class="status-tag completed">Completed</span>
+      </div>
+      <div class="bk-footer">
+        <span class="bk-price">₹199</span>
+        <div class="bk-actions">
+          <a class="btn btn-secondary" href="worker-profile.html?id=suresh-yadav">Rebook</a>
+          <button class="btn btn-primary">Rate</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="booking-card card">
+      <div class="bk-top">
+        <div class="bk-avatar"></div>
+        <div>
+          <div class="bk-name">Vikas Singh</div>
+          <div class="bk-meta">AC Repair · 8 Jul, 10:00 AM</div>
+        </div>
+        <span class="status-tag completed">Completed</span>
+      </div>
+      <div class="bk-footer">
+        <span class="bk-price">₹349</span>
+        <div class="bk-actions">
+          <a class="btn btn-secondary" href="worker-profile.html?id=vikas-singh">Rebook</a>
+          <button class="btn btn-primary">Invoice</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<nav class="tabbar glass">
+  <a class="tab" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+    Home
+  </a>
+  <a class="tab" href="search.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+    Search
+  </a>
+  <a class="tab active" href="bookings.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    Bookings
+  </a>
+  <a class="tab" href="chat.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    Chat
+  </a>
+  <a class="tab" href="profile.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+    Profile
+  </a>
+</nav>
+
+<script src="../js/theme.js"></script>
+<script>
+  document.querySelectorAll(".filter-scroll .chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      document.querySelectorAll(".filter-scroll .chip").forEach((c) => c.classList.remove("active"));
+      chip.classList.add("active");
+    });
+  });
+</script>
+</body>
+</html>
