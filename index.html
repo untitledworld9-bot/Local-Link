@@ -3,11 +3,56 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<title>LocalLink — Verified local professionals, on demand</title>
-<meta name="description" content="Book verified electricians, plumbers, mechanics and more near you — instantly." />
-<link rel="manifest" href="/manifest.json" />
+
+<!-- ===== SEO ===== -->
+<title>LocalLink — Verified Electrician, Plumber & Mechanic Near Maharajganj | Book in Minutes</title>
+<meta name="description" content="LocalLink connects you to verified local professionals — electricians, plumbers, AC repair, mechanics, carpenters & more — near Maharajganj, UP. Instant booking, real-time tracking, transparent pricing. First visit ₹0." />
+<meta name="keywords" content="electrician near me, plumber Maharajganj, AC repair Maharajganj, bike mechanic near me, home service app UP, LocalLink, verified professionals, carpenter near me, appliance repair" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://locallink.app/" />
+<meta name="author" content="LocalLink" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="LocalLink" />
+<meta property="og:title" content="LocalLink — Verified help, minutes away" />
+<meta property="og:description" content="Book verified electricians, plumbers, mechanics and more near you — instantly. Real-time tracking, transparent pricing, trusted reviews." />
+<meta property="og:url" content="https://locallink.app/" />
+<meta property="og:locale" content="en_IN" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="LocalLink — Verified help, minutes away" />
+<meta name="twitter:description" content="Book verified local professionals near you — instantly." />
+
+<link rel="manifest" href="manifest.json" />
 <meta name="theme-color" content="#6C63EC" />
-<link rel="stylesheet" href="/css/style.css" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+
+<!-- Structured data for local search / Google Business panel -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "LocalLink",
+  "description": "On-demand marketplace connecting customers with verified local service professionals.",
+  "areaServed": { "@type": "City", "name": "Maharajganj" },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Maharajganj",
+    "addressRegion": "Uttar Pradesh",
+    "addressCountry": "IN"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "3120"
+  },
+  "priceRange": "₹₹"
+}
+</script>
+
 <script>
   (function(){var t=localStorage.getItem("locallink-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t);})();
 </script>
@@ -26,24 +71,153 @@
   }
   .search-bar input { flex: 1; border: none; background: transparent; outline: none; font-size: 15px; color: var(--text); }
   .search-bar svg { width: 19px; height: 19px; stroke: var(--text-muted); flex-shrink: 0; }
+
+  /* Trust stat strip under hero */
+  .stat-strip { display: flex; gap: 10px; margin-top: 18px; }
+  .stat-pill { flex: 1; text-align: center; padding: 12px 6px; }
+  .stat-pill b { display: block; font-size: 16px; font-weight: 800; }
+  .stat-pill span { font-size: 10.5px; color: var(--text-muted); }
+
   .section { padding: 22px 20px; }
   .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
   .section-head a { font-size: 13px; font-weight: 600; color: var(--brand-500); }
   .worker-scroll { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
   .worker-scroll::-webkit-scrollbar { display: none; }
-  .worker-card { flex: 0 0 168px; padding: 14px; }
+  .worker-card { flex: 0 0 168px; padding: 14px; position: relative; }
   .worker-avatar { width: 56px; height: 56px; border-radius: 16px; background: var(--surface-2); margin-bottom: 10px; }
   .worker-name { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
   .worker-meta { font-size: 12px; color: var(--text-muted); }
+  .live-tag {
+    position: absolute; top: 12px; right: 12px; display: flex; align-items: center; gap: 4px;
+    background: rgba(34,197,94,0.12); color: var(--emerald); font-size: 10px; font-weight: 700;
+    padding: 3px 8px; border-radius: 999px;
+  }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--emerald); animation: pulseDot 1.6s infinite; }
+  @keyframes pulseDot { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
   .promo-banner {
     border-radius: var(--radius-2xl); padding: 26px 22px; color: #fff;
     position: relative; overflow: hidden;
   }
   .promo-banner h3 { font-size: 1.25rem; margin-bottom: 6px; }
   .promo-banner p { font-size: 13px; opacity: 0.9; margin-bottom: 16px; }
+
+  /* How it works */
+  .steps-grid { display: flex; flex-direction: column; gap: 12px; }
+  .step-row { display: flex; align-items: flex-start; gap: 14px; padding: 16px; }
+  .step-num {
+    width: 34px; height: 34px; border-radius: 11px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 14px; color: #fff;
+  }
+  .step-text h3 { font-size: 14px; margin-bottom: 3px; }
+  .step-text p { font-size: 12.5px; color: var(--text-muted); }
+
+  /* Testimonials */
+  .testi-scroll { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+  .testi-scroll::-webkit-scrollbar { display: none; }
+  .testi-card { flex: 0 0 260px; padding: 18px; }
+  .testi-stars { color: var(--amber); font-size: 13px; margin-bottom: 8px; }
+  .testi-text { font-size: 13px; color: var(--text); line-height: 1.5; margin-bottom: 14px; }
+  .testi-person { display: flex; align-items: center; gap: 10px; }
+  .testi-avatar { width: 34px; height: 34px; border-radius: 10px; background: var(--surface-2); flex-shrink: 0; }
+  .testi-name { font-size: 12.5px; font-weight: 700; }
+  .testi-loc { font-size: 11px; color: var(--text-muted); }
+
+  /* Trust badges */
+  .trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .trust-item { text-align: center; padding: 16px 8px; }
+  .trust-item svg { width: 26px; height: 26px; stroke: var(--brand-500); margin-bottom: 8px; }
+  .trust-item span { font-size: 11.5px; font-weight: 600; display: block; }
+
+  /* Footer */
+  footer { padding: 28px 20px 20px; }
+  .footer-city { font-size: 11.5px; color: var(--text-muted); line-height: 1.8; }
+  .footer-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
+  .footer-links a { font-size: 11.5px; color: var(--text-muted); }
+  .footer-brand { font-size: 13px; font-weight: 700; margin-top: 18px; }
+  .footer-copy { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
   .bottom-pad { height: 90px; }
   main { max-width: 480px; margin: 0 auto; }
   @media (min-width: 768px) { main { max-width: 720px; } }
+
+  /* ===== Floating local-help chatbot ===== */
+  .chat-fab {
+    position: fixed; right: 18px; bottom: calc(96px + env(safe-area-inset-bottom));
+    width: 56px; height: 56px; border-radius: 50%; z-index: 70;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-floating);
+    transition: transform 0.2s ease;
+  }
+  .chat-fab:active { transform: scale(0.92); }
+  .chat-fab svg { width: 24px; height: 24px; stroke: #fff; }
+  .chat-fab .fab-ping {
+    position: absolute; top: -3px; right: -3px; width: 14px; height: 14px; border-radius: 50%;
+    background: var(--rose); border: 2px solid var(--bg); display: flex; align-items: center; justify-content: center;
+    font-size: 8px; color: #fff; font-weight: 800;
+  }
+
+  .chat-panel {
+    position: fixed; right: 16px; left: 16px; bottom: calc(96px + env(safe-area-inset-bottom) + 66px);
+    max-width: 400px; margin: 0 auto; height: min(64vh, 520px); z-index: 71;
+    border-radius: var(--radius-2xl); overflow: hidden; display: none; flex-direction: column;
+    box-shadow: var(--shadow-floating); border: 1px solid var(--border);
+  }
+  .chat-panel.open { display: flex; }
+  .chat-panel-head {
+    display: flex; align-items: center; gap: 10px; padding: 14px 16px; color: #fff; flex-shrink: 0;
+  }
+  .chat-panel-avatar { width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .chat-panel-avatar svg { width: 17px; height: 17px; stroke: #fff; }
+  .chat-panel-title { font-size: 13.5px; font-weight: 700; }
+  .chat-panel-sub { font-size: 10.5px; opacity: 0.85; }
+  .chat-panel-close { margin-left: auto; width: 30px; height: 30px; border-radius: 9px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .chat-panel-close svg { width: 15px; height: 15px; stroke: #fff; }
+
+  .bot-messages { flex: 1; overflow-y: auto; padding: 14px; background: var(--bg); display: flex; flex-direction: column; gap: 8px; }
+  .bot-row { display: flex; max-width: 84%; }
+  .bot-row.bot { align-self: flex-start; }
+  .bot-row.user { align-self: flex-end; }
+  .bot-bubble { padding: 9px 13px; border-radius: 14px; font-size: 12.5px; line-height: 1.45; }
+  .bot-row.bot .bot-bubble { background: var(--surface-2); border-bottom-left-radius: 3px; }
+  .bot-row.user .bot-bubble { background: var(--brand-500); color: #fff; border-bottom-right-radius: 3px; }
+
+  .bot-quick-replies { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 14px 10px; background: var(--bg); flex-shrink: 0; }
+  .qr-chip { padding: 7px 12px; border-radius: 999px; font-size: 11.5px; font-weight: 600; background: var(--surface-2); color: var(--brand-500); }
+
+  .bot-input-bar { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: var(--card); flex-shrink: 0; border-top: 1px solid var(--border); }
+  .bot-input-bar input {
+    flex: 1; height: 40px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg);
+    padding: 0 14px; font-size: 12.5px; color: var(--text); outline: none;
+  }
+  .bot-send { width: 38px; height: 38px; border-radius: 50%; background: var(--brand-500); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .bot-send svg { width: 16px; height: 16px; stroke: #fff; }
+
+  /* ===== Mini live-location map ===== */
+  .mini-map-wrap { margin-top: 14px; display: none; }
+  .mini-map-wrap.show { display: block; }
+  .mini-map-card { position: relative; height: 150px; border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--border); }
+  #miniMap { width: 100%; height: 100%; }
+  .mini-map-tag {
+    position: absolute; bottom: 10px; left: 10px; z-index: 400;
+    display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; font-size: 11px; font-weight: 600;
+  }
+  .mini-map-tag .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--emerald); animation: pulseDot 1.6s infinite; }
+  .mini-map-expand {
+    position: absolute; top: 10px; right: 10px; z-index: 400;
+    width: 30px; height: 30px; border-radius: 9px; display: flex; align-items: center; justify-content: center;
+  }
+  .mini-map-expand svg { width: 14px; height: 14px; stroke: var(--text); }
+  .pulse-marker {
+    width: 16px; height: 16px; border-radius: 50%; background: var(--brand-500);
+    border: 3px solid #fff; box-shadow: 0 0 0 rgba(108,99,236,0.5); animation: pulseMarker 2s infinite;
+  }
+  @keyframes pulseMarker {
+    0% { box-shadow: 0 0 0 0 rgba(108,99,236,0.5); }
+    70% { box-shadow: 0 0 0 14px rgba(108,99,236,0); }
+    100% { box-shadow: 0 0 0 0 rgba(108,99,236,0); }
+  }
 </style>
 </head>
 <body>
@@ -72,7 +246,23 @@
 
       <div class="search-bar card">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
-        <input type="text" placeholder="Try 'fan repair' or 'bike puncture'" />
+        <input type="text" placeholder="Try 'fan repair' or 'bike puncture'" onclick="location.href='customer/search.html'" readonly />
+      </div>
+
+      <div class="mini-map-wrap" id="miniMapWrap">
+        <div class="mini-map-card">
+          <div id="miniMap"></div>
+          <span class="mini-map-tag glass"><span class="live-dot"></span>Live location</span>
+          <a class="mini-map-expand glass" href="customer/nearby.html" aria-label="Expand map">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3M16 3h3a2 2 0 012 2v3M8 21H5a2 2 0 01-2-2v-3M16 21h3a2 2 0 002-2v-3"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="stat-strip">
+        <div class="stat-pill glass"><b>1,240+</b><span>Verified pros</span></div>
+        <div class="stat-pill glass"><b>18k+</b><span>Jobs done</span></div>
+        <div class="stat-pill glass"><b>4.8 ★</b><span>Avg. rating</span></div>
       </div>
     </div>
   </section>
@@ -80,38 +270,38 @@
   <section class="section">
     <div class="section-head">
       <h2>Categories</h2>
-      <a href="/customer/category.html">See all</a>
+      <a href="customer/category.html">See all</a>
     </div>
     <div class="category-grid">
-      <a class="category-item" href="/customer/category.html?c=electrician">
+      <a class="category-item" href="customer/category.html?c=electrician">
         <div class="category-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
         <span>Electrician</span>
       </a>
-      <a class="category-item" href="/customer/category.html?c=plumber">
+      <a class="category-item" href="customer/category.html?c=plumber">
         <div class="category-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
         <span>Plumber</span>
       </a>
-      <a class="category-item" href="/customer/category.html?c=ac-repair">
+      <a class="category-item" href="customer/category.html?c=ac-repair">
         <div class="category-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/></svg></div>
         <span>AC Repair</span>
       </a>
-      <a class="category-item" href="/customer/category.html?c=carpenter">
+      <a class="category-item" href="customer/category.html?c=carpenter">
         <div class="category-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14.7 6.3l3 3L7 20H4v-3L14.7 6.3z"/><path d="M13 4l3 3"/></svg></div>
         <span>Carpenter</span>
       </a>
-      <a class="category-item" href="/customer/category.html?c=cleaning">
+      <a class="category-item" href="customer/category.html?c=cleaning">
         <div class="category-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2l2 5 5 .5-3.8 3.4L16.5 16 12 13l-4.5 3 1.3-5.1L5 6.5 10 6z"/></svg></div>
         <span>Cleaning</span>
       </a>
-      <a class="category-item" href="/customer/category.html?c=mechanic-bike">
+      <a class="category-item" href="customer/category.html?c=mechanic-bike">
         <div class="category-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l3-9h5l3 9M9 8h3"/></svg></div>
         <span>Bike Mechanic</span>
       </a>
-      <a class="category-item" href="/customer/category.html?c=painter">
+      <a class="category-item" href="customer/category.html?c=painter">
         <div class="category-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 2l4 4-9 9H9v-4l9-9z"/><path d="M4 22c1-4 2-6 5-6"/></svg></div>
         <span>Painter</span>
       </a>
-      <a class="category-item" href="/customer/category.html">
+      <a class="category-item" href="customer/category.html">
         <div class="category-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></div>
         <span>More</span>
       </a>
@@ -122,80 +312,351 @@
     <div class="promo-banner bg-brand-gradient">
       <h3>First booking, ₹0 visit fee</h3>
       <p>Verified professionals, transparent pricing, no surprises.</p>
-      <button class="btn btn-secondary" style="background:rgba(255,255,255,0.2); color:#fff; border-color:rgba(255,255,255,0.3);">Explore offers</button>
+      <button class="btn btn-secondary" style="background:rgba(255,255,255,0.2); color:#fff; border-color:rgba(255,255,255,0.3);" onclick="location.href='customer/category.html'">Explore offers</button>
     </div>
   </section>
 
   <section class="section">
     <div class="section-head">
       <h2>Top rated nearby</h2>
-      <a href="/customer/nearby.html">See all</a>
+      <a href="customer/nearby.html">See all</a>
     </div>
     <div class="worker-scroll">
-      <div class="worker-card card">
+      <a class="worker-card card" href="customer/worker-profile.html?id=ramesh-kumar" style="text-decoration:none; color:inherit;">
+        <span class="live-tag"><span class="live-dot"></span>Available</span>
         <div class="worker-avatar"></div>
         <div class="worker-name">Ramesh Kumar</div>
         <div class="worker-meta">Electrician · 4.8 ★</div>
         <div class="row gap-2" style="margin-top:8px;">
           <span class="badge badge-verified">✓ Verified</span>
         </div>
-      </div>
-      <div class="worker-card card">
+      </a>
+      <a class="worker-card card" href="customer/worker-profile.html?id=suresh-yadav" style="text-decoration:none; color:inherit;">
+        <span class="live-tag"><span class="live-dot"></span>Available</span>
         <div class="worker-avatar"></div>
         <div class="worker-name">Suresh Yadav</div>
         <div class="worker-meta">Plumber · 4.6 ★</div>
         <div class="row gap-2" style="margin-top:8px;">
           <span class="badge badge-verified">✓ Verified</span>
         </div>
-      </div>
-      <div class="worker-card card">
+      </a>
+      <a class="worker-card card" href="customer/worker-profile.html?id=vikas-singh" style="text-decoration:none; color:inherit;">
         <div class="worker-avatar"></div>
         <div class="worker-name">Vikas Singh</div>
         <div class="worker-meta">AC Repair · 4.9 ★</div>
         <div class="row gap-2" style="margin-top:8px;">
           <span class="badge badge-verified">✓ Verified</span>
         </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section">
+    <div class="section-head"><h2>How LocalLink works</h2></div>
+    <div class="steps-grid">
+      <div class="step-row card">
+        <div class="step-num bg-brand-gradient">1</div>
+        <div class="step-text">
+          <h3>Tell us what you need</h3>
+          <p>Pick a category or just type it in plain words — "fan not working" works fine.</p>
+        </div>
+      </div>
+      <div class="step-row card">
+        <div class="step-num bg-brand-gradient">2</div>
+        <div class="step-text">
+          <h3>Choose a verified pro</h3>
+          <p>See ratings, price, distance &amp; arrival time before you book — no guesswork.</p>
+        </div>
+      </div>
+      <div class="step-row card">
+        <div class="step-num bg-brand-gradient">3</div>
+        <div class="step-text">
+          <h3>Track &amp; pay with ease</h3>
+          <p>Live tracking as they arrive. Pay by UPI, card, or cash — your choice.</p>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- Testimonials -->
+  <section class="section">
+    <div class="section-head"><h2>Loved by your neighbours</h2></div>
+    <div class="testi-scroll">
+      <div class="testi-card card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Fan thik karwane ke liye pehle ghanto wait karte the. Ab LocalLink se 20 minute mein bandaa aa jaata hai."</p>
+        <div class="testi-person">
+          <div class="testi-avatar"></div>
+          <div>
+            <div class="testi-name">Priya Sharma</div>
+            <div class="testi-loc">Ward No. 6, Maharajganj</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Pricing pehle hi pata chal jaati hai, koi overcharge nahi karta. Bohot accha experience raha."</p>
+        <div class="testi-person">
+          <div class="testi-avatar"></div>
+          <div>
+            <div class="testi-name">Manoj Tiwari</div>
+            <div class="testi-loc">Civil Lines, Maharajganj</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card card">
+        <div class="testi-stars">★★★★☆</div>
+        <p class="testi-text">"Live tracking dekh ke tension nahi hoti — pata rehta hai bandaa kab tak pahunchega."</p>
+        <div class="testi-person">
+          <div class="testi-avatar"></div>
+          <div>
+            <div class="testi-name">Anjali Verma</div>
+            <div class="testi-loc">Station Road, Maharajganj</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust badges -->
+  <section class="section">
+    <div class="trust-grid">
+      <div class="trust-item card">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        <span>ID-verified pros</span>
+      </div>
+      <div class="trust-item card">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        <span>Transparent pricing</span>
+      </div>
+      <div class="trust-item card">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 22s8-7.5 8-13a8 8 0 10-16 0c0 5.5 8 13 8 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        <span>Live tracking</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEO footer: local content for Google to index -->
+  <footer>
+    <p class="footer-city">
+      LocalLink is Maharajganj's on-demand local services platform — connecting residents of
+      Ward No. 1 to Ward No. 15, Civil Lines, Station Road, and surrounding villages with
+      verified electricians, plumbers, AC technicians, carpenters, painters, bike &amp; car
+      mechanics, and home appliance repair professionals. Book in minutes, track in real time,
+      pay however suits you.
+    </p>
+    <div class="footer-links">
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="auth/index.html?role=worker">Become a professional</a>
+    </div>
+    <div class="footer-brand text-gradient">LocalLink</div>
+    <div class="footer-copy">© 2026 LocalLink. Serving Maharajganj, Uttar Pradesh.</div>
+  </footer>
+
   <div class="bottom-pad"></div>
 </main>
 
+<!-- Floating local-help chatbot -->
+<button class="chat-fab bg-brand-gradient" id="chatFab" onclick="toggleBot()" aria-label="Chat with LocalLink assistant">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+  <span class="fab-ping">1</span>
+</button>
+
+<div class="chat-panel glass" id="chatPanel">
+  <div class="chat-panel-head bg-brand-gradient">
+    <div class="chat-panel-avatar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a5 5 0 015 5c0 2-1 3-2 4l-1 1v2H10v-2l-1-1c-1-1-2-2-2-4a5 5 0 015-5z"/><path d="M9 21h6"/></svg>
+    </div>
+    <div>
+      <div class="chat-panel-title">LocalLink Sahayak</div>
+      <div class="chat-panel-sub">Maharajganj ke baare mein poocho</div>
+    </div>
+    <button class="chat-panel-close" onclick="toggleBot()" aria-label="Close chat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <div class="bot-messages" id="botMessages">
+    <div class="bot-row bot"><div class="bot-bubble">Namaste! 🙏 Main LocalLink Sahayak hoon. Maharajganj mein electrician, plumber, mechanic ya kisi bhi service ke baare mein poochho — turant jawab milega.</div></div>
+  </div>
+
+  <div class="bot-quick-replies" id="botQuickReplies">
+    <button class="qr-chip" onclick="askBot('Pricing kya hai')">💰 Pricing</button>
+    <button class="qr-chip" onclick="askBot('Kaise book karein')">📲 Booking kaise?</button>
+    <button class="qr-chip" onclick="askBot('Konsi services hai')">🛠️ Services</button>
+    <button class="qr-chip" onclick="askBot('Worker kaise bane')">👷 Worker banna hai</button>
+  </div>
+
+  <div class="bot-input-bar">
+    <input type="text" id="botInput" placeholder="Apna sawaal likhein…" />
+    <button class="bot-send" onclick="sendToBot()" aria-label="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
 <nav class="tabbar glass">
-  <a class="tab active" href="/index.html">
+  <a class="tab active" href="index.html">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
     Home
   </a>
-  <a class="tab" href="/customer/search.html">
+  <a class="tab" href="customer/search.html">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
     Search
   </a>
-  <a class="tab" href="/customer/bookings.html">
+  <a class="tab" href="customer/bookings.html">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
     Bookings
   </a>
-  <a class="tab" href="/customer/chat.html">
+  <a class="tab" href="customer/chat.html">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
     Chat
   </a>
-  <a class="tab" href="/customer/profile.html">
+  <a class="tab" href="customer/profile.html">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
     Profile
   </a>
 </nav>
 
-<script src="/js/theme.js"></script>
+<script src="js/theme.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
   function detectLocation() {
     const label = document.getElementById("locationLabel");
     if (!navigator.geolocation) { label.textContent = "Location not supported"; return; }
     label.textContent = "Detecting…";
     navigator.geolocation.getCurrentPosition(
-      () => { label.textContent = "Near your location"; },
-      () => { label.textContent = "Enable location for nearby help"; }
+      (pos) => {
+        label.textContent = "Near your location";
+        showLiveMap(pos.coords.latitude, pos.coords.longitude);
+        watchLiveLocation();
+      },
+      () => { label.textContent = "Enable location for nearby help"; },
+      { enableHighAccuracy: true, timeout: 10000 }
     );
   }
+
+  let liveMap = null;
+  let liveMarker = null;
+  let watchId = null;
+
+  function showLiveMap(lat, lng) {
+    document.getElementById("miniMapWrap").classList.add("show");
+
+    if (!liveMap) {
+      liveMap = L.map("miniMap", {
+        zoomControl: false,
+        attributionControl: false,
+        dragging: true,
+        scrollWheelZoom: false,
+      }).setView([lat, lng], 15);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+      }).addTo(liveMap);
+
+      const pulseIcon = L.divIcon({
+        className: "",
+        html: '<div class="pulse-marker"></div>',
+        iconSize: [16, 16],
+      });
+      liveMarker = L.marker([lat, lng], { icon: pulseIcon }).addTo(liveMap);
+
+      // Leaflet needs a resize kick once its container becomes visible
+      setTimeout(() => liveMap.invalidateSize(), 200);
+    } else {
+      liveMap.setView([lat, lng]);
+      liveMarker.setLatLng([lat, lng]);
+    }
+  }
+
+  function watchLiveLocation() {
+    if (watchId !== null || !navigator.geolocation) return;
+    // Keeps the marker moving in real time as the user's device moves
+    watchId = navigator.geolocation.watchPosition(
+      (pos) => {
+        if (liveMarker) liveMarker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
+      },
+      () => { /* silent — keep last known position on error */ },
+      { enableHighAccuracy: true, maximumAge: 5000 }
+    );
+  }
+
+  // ===== LocalLink Sahayak — rule-based local knowledge chatbot =====
+  // Keyword → response. First match wins. Extend this list as the
+  // platform grows (new cities, new categories, new policies).
+  const BOT_KB = [
+    { keys: ["pricing", "price", "kitna", "charge", "fee", "paisa", "rate"],
+      reply: "Visiting charge category ke hisaab se hota hai — Electrician ₹149, Plumber ₹149–199, AC Repair ₹299+, Cleaning ₹399+ se shuru. Pehli booking pe visit fee ₹0 hai! Exact price worker profile pe book karne se pehle dikh jaata hai." },
+    { keys: ["book", "booking", "kaise book", "order kaise"],
+      reply: "Booking bahut simple hai: Category chuno → nearby worker dekho (rating, price, arrival time) → date/time/address select karo → payment method choose karo (UPI/Card/Cash) → done! Worker turant notify ho jaata hai." },
+    { keys: ["service", "kya milta", "konsi service", "categories", "kaam"],
+      reply: "Hum ye services dete hain: Electrician, Plumber, AC/Fridge/Washing Machine Repair, Carpenter, Painter, Cleaning, Pest Control, CCTV Install, WiFi Technician, Bike/Car/Tractor Mechanic, Generator Repair, Welding, Labour, aur Car/Bike/Truck Rental bhi." },
+    { keys: ["worker", "professional ban", "kaam karna", "join", "register worker", "kamana"],
+      reply: "Worker banne ke liye: Profile ke 'Become a professional' link pe jao, Aadhaar/PAN aur experience details bharo, verification ke baad (usually 24-48 hrs) online ho sakte ho aur bookings milna shuru." },
+    { keys: ["payment", "upi", "cash", "cash on", "paise kaise"],
+      reply: "Payment ke 4 options: UPI (GPay/PhonePe/Paytm), Card/Netbanking, LocalLink Wallet, ya Cash on completion — jo bhi tumhe suit kare." },
+    { keys: ["area", "kaha", "location", "maharajganj", "city", "village", "kaun se area"],
+      reply: "Abhi hum Maharajganj, UP mein live hain — Ward No. 1 se 15 tak, Civil Lines, Station Road, aur aas-paas ke gaon cover karte hain. Jaldi hi aur shehron mein bhi expand karenge." },
+    { keys: ["time", "kab", "hours", "khula", "timing"],
+      reply: "Zyadatar workers 9 AM se 8 PM tak available rehte hain, kai ek 24x7 bhi. Har worker profile pe unki exact working hours dikhti hain." },
+    { keys: ["verify", "safe", "trust", "fraud", "sahi", "genuine"],
+      reply: "Har worker ka Aadhaar/PAN verification hota hai aur admin approval ke baad hi wo platform pe live hota hai. Sabhi workers pe reviews aur ratings bhi dikhte hain taaki tum informed decision le sako." },
+    { keys: ["cancel", "cancellation", "refund"],
+      reply: "Booking confirm hone ke baad worker accept karne se pehle tak free cancellation hai. Uske baad cancel karne pe chhota cancellation charge lag sakta hai — exact policy Terms page pe hai." },
+    { keys: ["track", "tracking", "kaha hai worker"],
+      reply: "Jaise hi worker booking accept karta hai, tumhe unki live location aur estimated arrival time dikhne lagti hai — 'Bookings' tab mein 'Track' button se." },
+    { keys: ["contact", "support", "help", "sahayata", "complaint"],
+      reply: "Profile → 'Help & support' mein jaake ticket raise kar sakte ho, ya seedha chat/call button se apne worker se baat kar sakte ho. Team 24 ghante mein reply karti hai." },
+    { keys: ["hello", "hi", "namaste", "hey"],
+      reply: "Namaste! Bataiye kis service ke baare mein jaanna chahte hain — pricing, booking process, ya kuch aur?" },
+  ];
+  const BOT_FALLBACK = "Iska exact jawab abhi mere paas nahi hai, lekin 'Help & support' section se hamari team se seedha baat kar sakte ho — wo turant madad karenge!";
+
+  function toggleBot() {
+    const panel = document.getElementById("chatPanel");
+    const ping = document.querySelector(".fab-ping");
+    panel.classList.toggle("open");
+    if (panel.classList.contains("open") && ping) ping.remove();
+  }
+
+  function addBotMessage(text, who) {
+    const wrap = document.getElementById("botMessages");
+    const row = document.createElement("div");
+    row.className = "bot-row " + who;
+    row.innerHTML = `<div class="bot-bubble"></div>`;
+    row.querySelector(".bot-bubble").textContent = text;
+    wrap.appendChild(row);
+    wrap.scrollTop = wrap.scrollHeight;
+  }
+
+  function answerFor(query) {
+    const q = query.toLowerCase();
+    const hit = BOT_KB.find((entry) => entry.keys.some((k) => q.includes(k)));
+    return hit ? hit.reply : BOT_FALLBACK;
+  }
+
+  function askBot(presetText) {
+    addBotMessage(presetText, "user");
+    setTimeout(() => addBotMessage(answerFor(presetText), "bot"), 350);
+  }
+
+  function sendToBot() {
+    const input = document.getElementById("botInput");
+    const text = input.value.trim();
+    if (!text) return;
+    addBotMessage(text, "user");
+    input.value = "";
+    setTimeout(() => addBotMessage(answerFor(text), "bot"), 350);
+  }
+
+  document.getElementById("botInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") sendToBot();
+  });
 </script>
 </body>
 </html>
